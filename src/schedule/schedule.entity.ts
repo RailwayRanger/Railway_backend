@@ -27,6 +27,6 @@ export class Schedule {
     @Column('json') // ✅ 이게 핵심! scheduleData를 JSON으로 저장하려면 꼭 필요
     scheduleData: Record<string, { time: string; desc: string }[]>;
 
-    @Column({ nullable: true })
-    userId: string | null; // 로그인 사용자는 ID, 게스트는 null
+    @Column({ type: 'varchar', nullable: true })
+    userId: string | null;
 }
