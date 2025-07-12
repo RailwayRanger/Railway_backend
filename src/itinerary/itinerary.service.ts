@@ -3,7 +3,8 @@ import OpenAI from 'openai';
 
 
 function buildPrompt(data: any): string {
-    const { startDate, endDate, tags, peopleCount, ageGroups, relations, request } = data;
+    const { startDate, endDate, startTime, tags, peopleCount, ageGroups, relations, request } = data;
+
 
     const ageGroupText = Object.entries(ageGroups)
         .filter(([_, count]: [string, number]) => count > 0)
@@ -19,7 +20,7 @@ function buildPrompt(data: any): string {
 사용자 요청에 따라 한국의 일반철도 또는 고속철도를 활용한 여행 일정을 생성해줘.
 ※ 지하철은 포함하지 말고, KTX, 무궁화호, ITX, 관광열차 등만 사용해줘.
 
-- 여행 기간: ${startDate} ~ ${endDate}
+- 여행 기간: ${startDate} ~ ${endDate} (출발 시간: ${startTime})
 - 여행 유형: ${tagText}
 - 인원 구성: 총 ${peopleCount}명 (${ageGroupText})
 - 관계: ${relationText}
