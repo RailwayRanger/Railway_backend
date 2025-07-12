@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-const { Configuration, OpenAIApi } = require('openai');
+import OpenAI from 'openai';
 
 
 function buildPrompt(data: any): string {
@@ -47,27 +47,26 @@ function buildPrompt(data: any): string {
 
 @Injectable()
 export class ItineraryService {
-    private openai = new OpenAIApi(new Configuration({
-        apiKey: process.env.OPENAI_API_KEY,
-    }));
+  private openai = new OpenAI({
+    apiKey: process.env.OPENAI_API_KEY,
+  });
 
+  async generate(data: any) {
+    const prompt = buildPrompt(data);
 
-    async generate(data: any) {
+    const chatCompletion = await this.openai.chat.completions.create({
+      model: 'gpt-4',
+      messages: [{ role: 'user', content: prompt }],
+      temperature: 0.7,
+    });
 
-        const prompt = buildPrompt(data);
+    const response = chatCompletion.choices[0].message?.content ?? '{}';
+    const itinerary = JSON.parse(response);
 
-        const chatCompletion = await this.openai.createChatCompletion({
-            model: 'gpt-4',
-            messages: [{ role: 'user', content: prompt }],
-            temperature: 0.7,
-        });
-
-        const response = chatCompletion.data.choices[0].message?.content ?? '';
-        const itinerary = JSON.parse(response); // 예외 처리 추가 추천
-
-        return {
-            itinerary,
-            message: '일정이 성공적으로 생성되었습니다.',
-        };
-    }
+    return {
+      itinerary,
+      message: '일정이 성공적으로 생성되었습니다.',
+    };
+  }
 }
+
