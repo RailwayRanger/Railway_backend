@@ -13,7 +13,16 @@ export class ScheduleService {
   ) {}
 
   async create(dto: CreateScheduleDto) {
-    const schedule = this.scheduleRepo.create(dto);
-    return await this.scheduleRepo.save(schedule);
-  }
+  const schedule = this.scheduleRepo.create({
+    ...dto,
+    userId: dto.userId ?? null,
+  });
+  return await this.scheduleRepo.save(schedule);
+}
+async getSchedulesByUserId(userId: string) {
+  return await this.scheduleRepo.find({
+    where: { userId },
+    order: { startDate: 'ASC' }, // 옵션: 정렬
+  });
+}
 }

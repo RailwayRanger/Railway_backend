@@ -1,7 +1,7 @@
-// src/schedule/schedule.controller.ts
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Post, Get, Param } from '@nestjs/common';
 import { ScheduleService } from './schedule.service';
 import { CreateScheduleDto } from './dto/schedule.dto';
+
 
 @Controller('schedule')
 export class ScheduleController {
@@ -10,5 +10,10 @@ export class ScheduleController {
   @Post()
   create(@Body() createScheduleDto: CreateScheduleDto) {
     return this.scheduleService.create(createScheduleDto);
+  }
+
+  @Get('user/:userId')
+  getUserSchedules(@Param('userId') userId: string) {
+    return this.scheduleService.getSchedulesByUserId(userId);
   }
 }

@@ -1,5 +1,5 @@
-// src/schedule/dto/create-schedule.dto.ts
 export class CreateScheduleDto {
+  userId?: string; // 선택값
   startDate: string;
   endDate: string;
   tags: string[];
