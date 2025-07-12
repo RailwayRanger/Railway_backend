@@ -1,5 +1,5 @@
-// src/schedule/entities/schedule.entity.ts
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+// src/schedule/schedule.entity.ts
+import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class Schedule {
@@ -12,18 +12,18 @@ export class Schedule {
   @Column()
   endDate: string;
 
-  @Column('simple-array') // 문자열 배열 저장
+  @Column("simple-array")
   tags: string[];
 
   @Column()
   people: number;
 
-  @Column('simple-array')
+  @Column("simple-array")
   relations: string[];
 
   @Column()
   request: string;
 
-  @Column('json')
-  scheduleData: any; // day별 일정들 (Map<String, List<{ time, desc }>>)
+  @Column('json') // ✅ 이게 핵심! scheduleData를 JSON으로 저장하려면 꼭 필요
+  scheduleData: Record<string, { time: string; desc: string }[]>;
 }
