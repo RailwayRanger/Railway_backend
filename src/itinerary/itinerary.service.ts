@@ -52,21 +52,34 @@ export class ItineraryService {
   });
 
   async generate(data: any) {
-    const prompt = buildPrompt(data);
+  const prompt = buildPrompt(data);
 
-    const chatCompletion = await this.openai.chat.completions.create({
-      model: 'gpt-4',
-      messages: [{ role: 'user', content: prompt }],
-      temperature: 0.7,
-    });
+  const chatCompletion = await this.openai.chat.completions.create({
+    model: 'gpt-4',
+    messages: [{ role: 'user', content: prompt }],
+    temperature: 0.7,
+  });
 
-    const response = chatCompletion.choices[0].message?.content ?? '{}';
-    const itinerary = JSON.parse(response);
+  const chatResponse = chatCompletion.choices[0].message?.content ?? '{}';
+  let itinerary = {};
+
+  try {
+    itinerary = JSON.parse(chatResponse);
+  } catch (e) {
+    console.error('JSON 파싱 실패:', e);
+    console.log('받은 응답:', chatResponse);
 
     return {
-      itinerary,
-      message: '일정이 성공적으로 생성되었습니다.',
+      error: true,
+      message: '일정 생성 중 문제가 발생했습니다.',
+      rawResponse: chatResponse,
     };
   }
+
+  return {
+    itinerary,
+    message: '일정이 성공적으로 생성되었습니다.',
+  };
+}
 }
 
