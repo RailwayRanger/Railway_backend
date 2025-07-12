@@ -25,4 +25,9 @@ async getSchedulesByUserId(userId: string) {
     order: { startDate: 'ASC' }, // 옵션: 정렬
   });
 }
+
+async deleteById(id: string) {
+  await this.scheduleRepo.delete(id);
+  return { message: '삭제 완료' };
+}
 }
