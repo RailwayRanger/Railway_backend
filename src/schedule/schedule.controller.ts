@@ -17,7 +17,7 @@ export class ScheduleController {
         return this.scheduleService.getSchedulesByUserId(userId);
     }
 
-    @Delete(':id')
+    @Delete('schedule/:id')
     deleteSchedule(@Param('id') id: string) {
         return this.scheduleService.deleteById(id);
     }
