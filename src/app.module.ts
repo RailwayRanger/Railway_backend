@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from './user/user.module'; 
 import { ItineraryModule } from './itinerary/itinerary.module';
+import { ScheduleModule } from './schedule/schedule.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { ItineraryModule } from './itinerary/itinerary.module';
     }),
     ItineraryModule,
     UserModule, 
+    ScheduleModule,
   ],
   controllers: [AppController],
   providers: [AppService],
