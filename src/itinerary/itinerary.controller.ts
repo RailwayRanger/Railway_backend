@@ -3,11 +3,11 @@ import { ItineraryService } from './itinerary.service';
 
 @Controller('api/itinerary')
 export class ItineraryController {
-  constructor(private readonly itineraryService: ItineraryService) {}
+    constructor(private readonly itineraryService: ItineraryService) { }
 
-  @Post('generate')
-  async generateItinerary(@Body() body: any) {
-    const result = await this.itineraryService.generate(body);
-    return { success: true, data: result };
-  }
+    @Post('generate')
+    async generateItinerary(@Body() body: any) {
+        const result = await this.itineraryService.generate(body);
+        return result;
+    }
 }
